@@ -10,10 +10,10 @@ module.exports = function (app) {
     .post((req, res) => {
       const local = req.body.locale;
       const textRaw = req.body.text;
-      // if(!local || !textRaw) {
-      //   res.json({ error: 'Required field(s) missing' });
-      //   return;
-      // } 
+      if(!local || !textRaw) {
+        res.json({ error: 'Required field(s) missing' });
+        return;
+      } 
       if(textRaw === '') {
         res.json({ error: 'No text to translate' });
         return;
