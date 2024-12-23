@@ -14,14 +14,14 @@ module.exports = function (app) {
       //   res.json({ error: 'Required field(s) missing' });
       //   return;
       // } 
-      // if(!textRaw) {
-      //   res.json({ error: 'No text to translate' });
-      //   return;
-      // } 
-      // if(local !== 'american-to-british' || local !== 'british-to-american') {
-      //   res.json({ error: 'Invalid value for locale field' });
-      //   return;
-      // } 
+      if(!textRaw) {
+        res.json({ error: 'No text to translate' });
+        return;
+      } 
+      if(local !== 'american-to-british' || local !== 'british-to-american') {
+        res.json({ error: 'Invalid value for locale field' });
+        return;
+      } 
       
       if(local === 'american-to-british') {
         res.json({
