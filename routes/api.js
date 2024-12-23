@@ -28,11 +28,14 @@ module.exports = function (app) {
           text: textRaw,
           translation: translator.americanToBritish(textRaw)
         });
-      } else if(local === 'british-to-american') {
+        return;
+      } 
+       if(local === 'british-to-american') {
         res.json({
           text: textRaw,
           translation: translator.britishToAmerican(textRaw)
         });
+        return;
       }
     });
 };
