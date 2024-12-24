@@ -14,7 +14,7 @@ module.exports = function (app) {
         res.json({ error: 'No text to translate' });
         return;
       } 
-      if(!local || !textRaw) {
+      if(!local && !textRaw) {
         res.json({ error: 'Required field(s) missing' });
         return;
       } 
