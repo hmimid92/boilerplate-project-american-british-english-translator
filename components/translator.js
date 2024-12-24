@@ -14,6 +14,13 @@ class Translator {
           return true;
         } 
     }
+    const regResult2= text.match(/\d\d+\.\d\d+/g);
+    if(regResult2 === null) {
+      const regResult3= text.match(/\d\d+:\d\d+/g);
+
+    } else {
+      return true;
+    }
     // let decide = false;
     // let arrText = text.split(" ");
     // arrText.forEach((el,i) => {  
@@ -59,7 +66,13 @@ class Translator {
           return true;
         } 
     }
+    const regResult2= text.match(/\d\d+:\d\d+/g);
+    if(regResult2 === null) {
+      const regResult3= text.match(/\d\d+\.\d\d+/g);
 
+    } else {
+      return true;
+    }
   //   let decide = false;
   //   let valuesArr = Object.values(americanToBritishSpelling);
   //   let keysArr = Object.keys(americanToBritishSpelling);
