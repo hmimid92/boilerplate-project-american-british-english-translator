@@ -17,7 +17,29 @@ class Translator {
     const regResult2= text.match(/\d\d+\.\d\d+/g);
     if(regResult2 === null) {
       const regResult3= text.match(/\d\d+:\d\d+/g);
-
+      if(regResult2 === null) {
+        let arrText = text.split(" ");
+        arrText.forEach((el,i) => {  
+          if(Object.keys(americanToBritishSpelling).includes(el)) 
+          {
+            arrText[i] = `<span class="highlight">${americanToBritishSpelling[el]}</span>`;
+            decide = true;
+          } else if( Object.keys(americanToBritishTitles).includes(el) ) {
+            arrText[i] = `<span class="highlight">${americanToBritishTitles[el]}</span>`;
+          } 
+        });
+        return arrText.join(' ');
+      } else {
+        const el = regResult3[0];
+        const arr = regResult3[0].split(":");
+        if((arr[0].length <= 2 && arr[1].length <= 2) &&
+               (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
+               (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
+              ) {
+           return text.replace(el, `<span class="highlight">${arr[0]}.${arr[1]}</span>`);
+         }
+      }
+      
     } else {
       return true;
     }
@@ -59,6 +81,8 @@ class Translator {
    britishToAmerican(text) {
     let valuesArr = Object.keys(americanToBritishSpelling);
     valuesArr.push(...Object.keys(americanToBritishTitles));
+    let keysArr = Object.keys(americanToBritishSpelling);
+    keysArr.push(...Object.keys(americanToBritishTitles));
     let arrText = text.split(" ");
     for(let i = 0;i < arrText.length; i++) {
       if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
@@ -66,10 +90,37 @@ class Translator {
           return true;
         } 
     }
-    const regResult2= text.match(/\d\d+:\d\d+/g);
+    const regResult2 = text.match(/\d\d+:\d\d+/g);
     if(regResult2 === null) {
       const regResult3= text.match(/\d\d+\.\d\d+/g);
-
+      if(regResult3 === null) {
+        let arrText = text.split(" ");
+          arrText.forEach((el,i) => {
+           if(valuesArr.includes(el)) {
+             let k = 'begin';
+             let n = 0;
+             while(k === 'begin') {
+               if(valuesArr[n] === el) {
+                 k = 'end';
+                 break;
+               }
+               n++;
+             }
+             arrText[i] = `<span class="highlight">${keysArr[n]}</span>`;
+           }
+         });
+         return arrText.join(' ');
+      } else {
+        const el = regResult3[0];
+        const arr = regResult3[0].split(".");
+        if((arr[0].length <= 2 && arr[1].length <= 2) &&
+                 (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
+                 (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
+                ) {
+              return text.replace(el, `<span class="highlight">${arr[0]}:${arr[1]}</span>`)
+        } 
+      }
+     
     } else {
       return true;
     }
