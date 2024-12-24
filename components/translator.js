@@ -9,7 +9,7 @@ class Translator {
     valuesArr.push(...Object.values(americanToBritishTitles));
     let arrText = text.split(" ");
     for(let i = 0;i < arrText.length; i++) {
-      if(valuesArr.includes(arrText[i])) 
+      if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
         {
           return true;
         } 
@@ -61,7 +61,7 @@ class Translator {
     valuesArr.push(...Object.keys(americanToBritishTitles));
     let arrText = text.split(" ");
     for(let i = 0;i < arrText.length; i++) {
-      if(valuesArr.includes(arrText[i])) 
+      if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
         {
           return true;
         } 
