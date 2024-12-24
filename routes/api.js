@@ -14,7 +14,7 @@ module.exports = function (app) {
         res.json({ error: 'No text to translate' });
         return;
       } 
-      if(!textRaw || (local !== 'american-to-british' || local !== 'british-to-american')) {
+      if(!textRaw) {
         res.json({ error: 'Required field(s) missing' });
         return;
       }  
