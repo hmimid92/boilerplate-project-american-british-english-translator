@@ -11,7 +11,7 @@ module.exports = function (app) {
       const local = req.body.locale;
       const textRaw = req.body.text;
 
-      if(!local && !textRaw) {
+      if(!local && !textRaw && (local !== 'american-to-british' || local !== 'british-to-american')) {
         res.json({ error: 'Required field(s) missing' });
         return;
       } 
