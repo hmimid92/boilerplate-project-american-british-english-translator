@@ -10,18 +10,18 @@ module.exports = function (app) {
     .post((req, res) => {
       const local = req.body.locale;
       const textRaw = req.body.text;
-      if(!local || !textRaw) {
-        res.json({ error: 'Required field(s) missing' });
-        return;
-      } 
-      if(textRaw === '') {
-        res.json({ error: 'No text to translate' });
-        return;
-      } 
-      if(local !== 'american-to-british' || local !== 'british-to-american') {
-        res.json({ error: 'Invalid value for locale field' });
-        return;
-      } 
+      // if(!local || !textRaw) {
+      //   res.json({ error: 'Required field(s) missing' });
+      //   return;
+      // } 
+      // if(textRaw === '') {
+      //   res.json({ error: 'No text to translate' });
+      //   return;
+      // } 
+      // if(local !== 'american-to-british' || local !== 'british-to-american') {
+      //   res.json({ error: 'Invalid value for locale field' });
+      //   return;
+      // } 
       if(local === 'american-to-british') {
         res.json({
           text: textRaw,
