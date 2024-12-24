@@ -19,11 +19,7 @@ module.exports = function (app) {
         res.json({ error: 'No text to translate' });
         return;
       } 
-      
-      if(local !== 'american-to-british' || local !== 'british-to-american') {
-        res.json({ error: 'Invalid value for locale field' });
-        return;
-      } 
+ 
       if(local === 'american-to-british') {
         if(translator.americanToBritish(textRaw)) {
           res.json(
@@ -34,8 +30,7 @@ module.exports = function (app) {
           );
         }
         return;
-      }
-      if(local === 'british-to-american') {
+      } else if(local === 'british-to-american') {
         if(translator.britishToAmerican(textRaw)) {
           res.json(
             { 
@@ -44,6 +39,9 @@ module.exports = function (app) {
              }
           );
         }
+        return;
+      } else {
+        res.json({ error: 'Invalid value for locale field' });
         return;
       }  
     });

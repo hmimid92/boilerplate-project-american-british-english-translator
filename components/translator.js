@@ -8,12 +8,12 @@ class Translator {
     let valuesArr = Object.values(americanToBritishSpelling);
     valuesArr.push(...Object.values(americanToBritishTitles));
     let arrText = text.split(" ");
-    arrText.forEach((el) => {  
-        if(valuesArr.includes(el)) 
-         {
-           return true;
-         } 
-       });
+    for(let i = 0;i < arrText.length; i++) {
+      if(valuesArr.includes(arrText[i])) 
+        {
+          return true;
+        } 
+    }
     // let decide = false;
     // let arrText = text.split(" ");
     // arrText.forEach((el,i) => {  
@@ -53,12 +53,13 @@ class Translator {
     let valuesArr = Object.keys(americanToBritishSpelling);
     valuesArr.push(...Object.keys(americanToBritishTitles));
     let arrText = text.split(" ");
-    arrText.forEach((el) => {  
-        if(valuesArr.includes(el)) 
-         {
-           return true;
-         } 
-       });
+    for(let i = 0;i < arrText.length; i++) {
+      if(valuesArr.includes(arrText[i])) 
+        {
+          return true;
+        } 
+    }
+
   //   let decide = false;
   //   let valuesArr = Object.values(americanToBritishSpelling);
   //   let keysArr = Object.keys(americanToBritishSpelling);
