@@ -22,19 +22,5 @@ module.exports = function (app) {
         res.json({ error: 'Invalid value for locale field' });
         return;
       } 
-      if(local === 'american-to-british') {
-        res.json({
-          text: textRaw,
-          translation: translator.americanToBritish(textRaw)
-        });
-        return;
-      } 
-       if(local === 'british-to-american') {
-        res.json({
-          text: textRaw,
-          translation: translator.britishToAmerican(textRaw)
-        });
-        return;
-      }
     });
 };
