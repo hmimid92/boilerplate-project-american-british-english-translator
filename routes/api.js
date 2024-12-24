@@ -22,13 +22,6 @@ module.exports = function (app) {
       //   res.json({ error: 'Invalid value for locale field' });
       //   return;
       // } 
-      if(translator.americanToBritish(textRaw) === "Everything looks good to me!" ||
-         translator.britishToAmerican(textRaw) === "Everything looks good to me!" ) {
-          res.json({
-            text: textRaw,
-            translation: "Everything looks good to me!"
-          });
-         }
       if(local === 'american-to-british') {
         res.json({
           text: textRaw,

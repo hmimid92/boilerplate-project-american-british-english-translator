@@ -18,10 +18,12 @@ class Translator {
        } 
      });
      if(!decide) {
-      const regResult = text.match(/\d\d+:\d\d+/g);
-      if(regResult === null) {
-        return "an error!";
+      const regResult2= text.match(/\d\d+.\d\d+/g);
+      if(!regResult2 === null) {
+      if(regResult2[0].split("").includes(".")) {
+        return "Everything looks good to me!";
       } else {
+        const regResult = text.match(/\d\d+:\d\d+/g);
         const el = regResult[0];
         const arr = regResult[0].split(":");
         if((arr[0].length <= 2 && arr[1].length <= 2) &&
@@ -29,11 +31,12 @@ class Translator {
            (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
           ) {
             return text.replace(el, `<span class="highlight">${arr[0]}.${arr[1]}</span>`);
-        } else {
-          return "Everything looks good to me!";
         }
       }
      }
+    } else {
+      return "Everything looks good to me!";
+    }
     return decide ? arrText.join(' ') : undefined;
    }
 
@@ -60,21 +63,25 @@ class Translator {
      }
    });
    if(!decide) {
-    const regResult = text.match(/\d\d+.\d\d+/g);
-    if(regResult === null) {
-      return "error";
-    } else {
-      const el = regResult[0];
-      const arr = regResult[0].split(".");
-      if((arr[0].length <= 2 && arr[1].length <= 2) &&
-         (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
-         (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
-        ) {
-          return text.replace(el, `<span class="highlight">${arr[0]}:${arr[1]}</span>`)
+    const regResult2= text.match(/\d\d+:\d\d+/g);
+    if(!regResult2 === null) {
+      if(regResult2[0].split("").includes(":")) {
+        return "Everything looks good to me!";
       } else {
-       return "Everything looks good to me!";
+        const regResult = text.match(/\d\d+.\d\d+/g);
+        const el = regResult[0];
+        const arr = regResult[0].split(".");
+        if((arr[0].length <= 2 && arr[1].length <= 2) &&
+           (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
+           (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
+          ) {
+            return text.replace(el, `<span class="highlight">${arr[0]}:${arr[1]}</span>`)
+        } 
       }
+    } else {
+      return "Everything looks good to me!";
     }
+  
    }
 
    return decide ? arrText.join(' ') : undefined;
