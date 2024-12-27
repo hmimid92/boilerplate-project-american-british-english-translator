@@ -21,7 +21,7 @@ module.exports = function (app) {
       } 
  
       if(local === 'american-to-british') {
-        if(translator.americanToBritish(textRaw) === 'fine') {
+        if(translator.americanToBritish(textRaw)) {
           res.json(
             { 
               text: textRaw,
@@ -31,7 +31,7 @@ module.exports = function (app) {
         }
         return;
       } else if(local === 'british-to-american') {
-        if(translator.britishToAmerican(textRaw) === 'fine') {
+        if(translator.britishToAmerican(textRaw)) {
           res.json(
             { 
               text: textRaw,

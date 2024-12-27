@@ -11,7 +11,7 @@ class Translator {
     for(let i = 0;i < arrText.length; i++) {
       if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
         {
-          return 'fine';
+          return true;
         } 
     }
     const regResult2= text.match(/\d\d+\.\d\d+/g);
@@ -40,7 +40,7 @@ class Translator {
       }
       
     } else {
-      return 'fine';
+      return true;
     }
     // let decide = false;
     // let arrText = text.split(" ");
