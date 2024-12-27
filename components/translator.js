@@ -11,7 +11,7 @@ class Translator {
     for(let i = 0;i < arrText.length; i++) {
       if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
         {
-          return true;
+          return 'fine';
         } 
     }
     const regResult2= text.match(/\d\d+\.\d\d+/g);
@@ -23,7 +23,6 @@ class Translator {
           if(Object.keys(americanToBritishSpelling).includes(el)) 
           {
             arrText[i] = `<span class="highlight">${americanToBritishSpelling[el]}</span>`;
-            decide = true;
           } else if( Object.keys(americanToBritishTitles).includes(el) ) {
             arrText[i] = `<span class="highlight">${americanToBritishTitles[el]}</span>`;
           } 
@@ -41,7 +40,7 @@ class Translator {
       }
       
     } else {
-      return true;
+      return 'fine';
     }
     // let decide = false;
     // let arrText = text.split(" ");
@@ -87,7 +86,7 @@ class Translator {
     for(let i = 0;i < arrText.length; i++) {
       if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
         {
-          return true;
+          return 'fine';
         } 
     }
     const regResult2 = text.match(/\d\d+:\d\d+/g);
@@ -122,7 +121,7 @@ class Translator {
       }
      
     } else {
-      return true;
+      return 'fine';
     }
   //   let decide = false;
   //   let valuesArr = Object.values(americanToBritishSpelling);
