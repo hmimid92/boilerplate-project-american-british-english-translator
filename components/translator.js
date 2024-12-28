@@ -4,30 +4,50 @@ const americanToBritishTitles = require("./american-to-british-titles.js")
 const britishOnly = require('./british-only.js')
 
 class Translator {
-   americanToBritish(text) {
-    let valuesArr = Object.values(americanToBritishSpelling);
-    valuesArr.push(...Object.values(americanToBritishTitles));
-    let arrText = text.split(" ");
-    for(let i = 0;i < arrText.length; i++) {
-      if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
+
+  americanToBritishTest(text) {
+    let britishArr = Object.values(americanToBritishSpelling);
+    britishArr.push(...Object.values(americanToBritishTitles));
+    britishArr.push(...Object.keys(britishOnly));
+    britishArr.push(...Object.values(americanOnly));
+    for(let i = 0; i < britishArr.length; i++) {
+      if((new RegExp(britishArr[i][0],"g")).test(text)) 
         {
           return true;
-        } 
+        } else {
+          const regResult2 = text.match(/\d\d+\.\d\d+/g);
+          if(regResult2 !== null) {
+              return true;
+          } else {
+            return false;
+          }
+        }
     }
+  }
+  americanToBritish(text) {
+    let americanArr = Object.keys(americanToBritishSpelling);
+    americanArr.push(...Object.keys(americanToBritishTitles));
+    americanArr.push(...Object.values(britishOnly));
+    americanArr.push(...Object.keys(americanOnly));
+    let britishArr = Object.values(americanToBritishSpelling);
+    britishArr.push(...Object.values(americanToBritishTitles));
+    britishArr.push(...Object.keys(britishOnly));
+    britishArr.push(...Object.values(americanOnly));
+    let mapStructure = new Map();
+    americanArr.forEach((el,i) => {
+       mapStructure.set(el,britishArr[i]);
+    });
     const regResult2= text.match(/\d\d+\.\d\d+/g);
     if(regResult2 === null) {
       const regResult3= text.match(/\d\d+:\d\d+/g);
-      if(regResult2 === null) {
-        let arrText = text.split(" ");
-        arrText.forEach((el,i) => {  
-          if(Object.keys(americanToBritishSpelling).includes(el)) 
-          {
-            arrText[i] = `<span class="highlight">${americanToBritishSpelling[el]}</span>`;
-          } else if( Object.keys(americanToBritishTitles).includes(el) ) {
-            arrText[i] = `<span class="highlight">${americanToBritishTitles[el]}</span>`;
-          } 
+      if(regResult3 === null) {
+        let textTranslated = text;
+        americanArr.forEach(el => {
+        if((new RegExp(el,"g")).test(text)) {
+           textTranslated = textTranslated.replace(el, `<span class="highlight">${Object.fromEntries(mapStructure)[el]}</span>`);
+          }
         });
-        return arrText.join(' ');
+       return textTranslated;
       } else {
         const el = regResult3[0];
         const arr = regResult3[0].split(":");
@@ -39,76 +59,53 @@ class Translator {
          }
       }
       
-    } else {
-      return true;
     }
-    // let decide = false;
-    // let arrText = text.split(" ");
-    // arrText.forEach((el,i) => {  
-    //   if(Object.keys(americanToBritishSpelling).includes(el)) 
-    //    {
-    //      arrText[i] = `<span class="highlight">${americanToBritishSpelling[el]}</span>`;
-    //      decide = true;
-    //    } else if( Object.keys(americanToBritishTitles).includes(el) ) {
-    //      arrText[i] = `<span class="highlight">${americanToBritishTitles[el]}</span>`;
-    //      decide = true;
-    //    } 
-    //  });
-    //  if(!decide) {
-    //   const regResult2= text.match(/\d\d+.\d\d+/g);
-    //   if(!regResult2 === null) {
-    //   if(regResult2[0].split("").includes(".")) {
-    //     return "Everything looks good to me!";
-    //   } else {
-    //     const regResult = text.match(/\d\d+:\d\d+/g);
-    //     const el = regResult[0];
-    //     const arr = regResult[0].split(":");
-    //     if((arr[0].length <= 2 && arr[1].length <= 2) &&
-    //        (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
-    //        (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
-    //       ) {
-    //         return text.replace(el, `<span class="highlight">${arr[0]}.${arr[1]}</span>`);
-    //     }
-    //   }
-    //  }
-    // } else {
-    //   return "Everything looks good to me!";
-    // }
-    // return decide ? arrText.join(' ') : undefined;
+   }
+
+   britishToAmericanTest(text) {
+    let americanArr = Object.keys(americanToBritishSpelling);
+    americanArr.push(...Object.keys(americanToBritishTitles));
+    americanArr.push(...Object.values(britishOnly));
+    americanArr.push(...Object.keys(americanOnly));
+    for(let i = 0; i < americanArr.length; i++) {
+      if((new RegExp(americanArr[i],"g")).test(text)) 
+        {
+          return true;
+        } else {
+          const regResult2 = text.match(/\d\d+\:\d\d+/g);
+          if(regResult2 !== null) {
+              return true;
+          } else {
+            return false;
+          }
+        }
+     }; 
    }
 
    britishToAmerican(text) {
-    let valuesArr = Object.keys(americanToBritishSpelling);
-    valuesArr.push(...Object.keys(americanToBritishTitles));
-    let keysArr = Object.keys(americanToBritishSpelling);
-    keysArr.push(...Object.keys(americanToBritishTitles));
-    let arrText = text.split(" ");
-    for(let i = 0;i < arrText.length; i++) {
-      if(valuesArr.map(el => el.toLowerCase()).includes(arrText[i].toLowerCase())) 
-        {
-          return 'fine';
-        } 
-    }
+    let americanArr = Object.keys(americanToBritishSpelling);
+    americanArr.push(...Object.keys(americanToBritishTitles));
+    americanArr.push(...Object.values(britishOnly));
+    americanArr.push(...Object.keys(americanOnly));
+    let britishArr = Object.values(americanToBritishSpelling);
+    britishArr.push(...Object.values(americanToBritishTitles));
+    britishArr.push(...Object.keys(britishOnly));
+    britishArr.push(...Object.values(americanOnly));
+    let mapStructure = new Map();
+    britishArr.forEach((el,i) => {
+      mapStructure.set(el,americanArr[i]);
+     });
     const regResult2 = text.match(/\d\d+:\d\d+/g);
     if(regResult2 === null) {
       const regResult3= text.match(/\d\d+\.\d\d+/g);
       if(regResult3 === null) {
-        let arrText = text.split(" ");
-          arrText.forEach((el,i) => {
-           if(valuesArr.includes(el)) {
-             let k = 'begin';
-             let n = 0;
-             while(k === 'begin') {
-               if(valuesArr[n] === el) {
-                 k = 'end';
-                 break;
-               }
-               n++;
+        let textTranslated = text;
+        britishArr.forEach((el,i) => {
+            if((new RegExp(el,"g")).test(text)) {
+              textTranslated = textTranslated.replace(el, `<span class="highlight">${Object.fromEntries(mapStructure)[el]}</span>`);
              }
-             arrText[i] = `<span class="highlight">${keysArr[n]}</span>`;
-           }
          });
-         return arrText.join(' ');
+         return textTranslated;
       } else {
         const el = regResult3[0];
         const arr = regResult3[0].split(".");
@@ -120,76 +117,7 @@ class Translator {
         } 
       }
      
-    } else {
-      return 'fine';
-    }
-  //   let decide = false;
-  //   let valuesArr = Object.values(americanToBritishSpelling);
-  //   let keysArr = Object.keys(americanToBritishSpelling);
-  //   valuesArr.push(...Object.values(americanToBritishTitles));
-  //   keysArr.push(...Object.keys(americanToBritishTitles));
-  //   let arrText = text.split(" ");
-  //   arrText.forEach((el,i) => {
-  //    if(valuesArr.includes(el)) {
-  //      let k = 'begin';
-  //      let n = 0;
-  //      while(k === 'begin') {
-  //        if(valuesArr[n] === el) {
-  //          k = 'end';
-  //          break;
-  //        }
-  //        n++;
-  //      }
-  //      arrText[i] = `<span class="highlight">${keysArr[n]}</span>`;
-  //      decide = true;
-  //    }
-  //  });
-  //  if(!decide) {
-  //   const regResult2= text.match(/\d\d+:\d\d+/g);
-  //   if(!regResult2 === null) {
-  //     if(regResult2[0].split("").includes(":")) {
-  //       return "Everything looks good to me!";
-  //     } else {
-  //       const regResult = text.match(/\d\d+.\d\d+/g);
-  //       const el = regResult[0];
-  //       const arr = regResult[0].split(".");
-  //       if((arr[0].length <= 2 && arr[1].length <= 2) &&
-  //          (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
-  //          (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
-  //         ) {
-  //           return text.replace(el, `<span class="highlight">${arr[0]}:${arr[1]}</span>`)
-  //       } 
-  //     }
-  //   } else {
-  //     return "Everything looks good to me!";
-  //   }
-  
-  //  }
-
-  //  return decide ? arrText.join(' ') : undefined;
-   }
-
-   toAmericanOnly(text) {
-    let textTranslated = '';
-    const arr = Object.keys(americanOnly);
-    arr.forEach(el => {
-     if(text.match(new RegExp(el,"g"))) {
-       textTranslated = text.replace(el, americanOnly[el]);
-     }
-    });
-    return textTranslated === ""? "looks good" : textTranslated;
-   }
-
-   toBritishOnly(text) {
-    let textTranslated = '';
-    const arr = Object.keys(britishOnly);
-    arr.forEach(el => {
-     if(text.match(new RegExp(el,"g"))) {
-            
-       textTranslated = text.replace(el, britishOnly[el]);
-     }
-    });
-    return textTranslated === ""? "looks good" : textTranslated;
+    } 
    }
 }
 
