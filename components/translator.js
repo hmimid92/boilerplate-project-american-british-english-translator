@@ -11,11 +11,11 @@ class Translator {
     britishArr.push(...Object.keys(britishOnly));
     britishArr.push(...Object.values(americanOnly));
     for(let i = 0; i < britishArr.length; i++) {
-      if((new RegExp(britishArr[i][0],"g")).test(text)) 
+      if((new RegExp(britishArr[i],"g")).test(text)) 
         {
           return true;
         } else {
-          const regResult2 = text.match(/\d\d?:\d\d?/g);
+          const regResult2 = text.match(/\d\d?\.\d\d?/g);
           if(regResult2 !== null) {
               return true;
           } else {
@@ -37,8 +37,6 @@ class Translator {
     americanArr.forEach((el,i) => {
        mapStructure.set(el,britishArr[i]);
     });
-    const regResult2= text.match(/\d\d?:\d\d?/g);
-    if(regResult2 === null) {
       const regResult3= text.match(/\d\d?:\d\d?/g);
       if(regResult3 === null) {
         let textTranslated = text;
@@ -58,8 +56,6 @@ class Translator {
            return text.replace(el, `<span class="highlight">${arr[0]}.${arr[1]}</span>`);
          }
       }
-      
-    }
    }
 
    britishToAmericanTest(text) {
@@ -95,8 +91,7 @@ class Translator {
     britishArr.forEach((el,i) => {
       mapStructure.set(el,americanArr[i]);
      });
-    const regResult2 = text.match(/\d\d?:\d\d?/g);
-    if(regResult2 === null) {
+
       const regResult3= text.match(/\d\d?\.\d\d?/g);
       if(regResult3 === null) {
         let textTranslated = text;
@@ -116,8 +111,6 @@ class Translator {
               return text.replace(el, `<span class="highlight">${arr[0]}:${arr[1]}</span>`)
         } 
       }
-     
-    } 
    }
 }
 
