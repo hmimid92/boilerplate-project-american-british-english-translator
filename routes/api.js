@@ -21,7 +21,6 @@ module.exports = function (app) {
       } 
  
       if(local === 'american-to-british') {
-        textRaw = textRaw.toLowerCase();
         if(translator.americanToBritish(textRaw) === 'same') {
           res.json({
             text: textRaw,
@@ -36,7 +35,6 @@ module.exports = function (app) {
           return; 
         }
       } else if(local === 'british-to-american') {
-        textRaw = textRaw.toLowerCase();
         if(translator.britishToAmerican(textRaw) === 'same') {
           res.json({
             text: textRaw,
