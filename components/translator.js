@@ -10,19 +10,23 @@ class Translator {
     britishArr.push(...Object.values(americanToBritishTitles));
     britishArr.push(...Object.keys(britishOnly));
     britishArr.push(...Object.values(americanOnly));
-    for(let i = 0; i < britishArr.length; i++) {
-      if((new RegExp(britishArr[i],"g")).test(text)) 
+    let arrText = text.split(/\s|\.$/g);
+    let decide = false;
+    arrText.forEach((el) => {
+      if(britishArr.includes(el)) 
         {
-          return true;
-        } else {
-          const regResult2 = text.match(/\d\d?\.\d\d?/g);
+          decide = true;
+        } 
+    }); 
+    if(!decide)
+      {const regResult2 = text.match(/\d\d?:\d\d?/g);
           if(regResult2 !== null) {
-              return true;
+            return true;
           } else {
             return false;
           }
-        }
-    }
+      }
+      return decide;
   }
   americanToBritish(text) {
     let americanArr = Object.keys(americanToBritishSpelling);
@@ -39,9 +43,10 @@ class Translator {
     });
       const regResult3= text.match(/\d\d?:\d\d?/g);
       if(regResult3 === null) {
+        let arrText = text.split(/\s|\.$/g);
         let textTranslated = text;
-        americanArr.forEach(el => {
-        if((new RegExp(el,"g")).test(text)) {
+        arrText.forEach(el => {
+        if(americanArr.includes(el)) {
            textTranslated = textTranslated.replace(el, `<span class="highlight">${Object.fromEntries(mapStructure)[el]}</span>`);
           }
         });
@@ -63,19 +68,24 @@ class Translator {
     americanArr.push(...Object.keys(americanToBritishTitles));
     americanArr.push(...Object.values(britishOnly));
     americanArr.push(...Object.keys(americanOnly));
-    for(let i = 0; i < americanArr.length; i++) {
-      if((new RegExp(americanArr[i],"g")).test(text)) 
+    let arrText = text.split(/\s|\.$/g);
+    let decide = false;
+    arrText.forEach((el) => {
+      if(americanArr.includes(el)) 
         {
-          return true;
-        } else {
-          const regResult2 = text.match(/\d\d?:\d\d?/g);
+          decide = true;
+        } 
+    }); 
+    if(!decide)
+      {
+        const regResult2 = text.match(/\d\d?:\d\d?/g);
           if(regResult2 !== null) {
-              return true;
+            return true;
           } else {
             return false;
           }
-        }
-     }; 
+      }
+      return decide;
    }
 
    britishToAmerican(text) {
@@ -94,9 +104,10 @@ class Translator {
 
       const regResult3= text.match(/\d\d?\.\d\d?/g);
       if(regResult3 === null) {
+        let arrText = text.split(/\s|\.$/g);
         let textTranslated = text;
-        britishArr.forEach((el,i) => {
-            if((new RegExp(`${el}\\s`,"g")).test(textTranslated)) {
+        arrText.forEach((el,i) => {
+            if(britishArr.includes(el)) {
               textTranslated = textTranslated.replace(el, `<span class="highlight">${Object.fromEntries(mapStructure)[el]}</span>`);             
             }
          });
