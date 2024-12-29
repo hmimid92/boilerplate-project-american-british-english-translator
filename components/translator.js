@@ -35,7 +35,7 @@ class Translator {
     let decide = false;
     let textTranslated = text.toLowerCase();
     britishArr.forEach(e => {
-     if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'ig')).test(textTranslated)) {
+     if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'g')).test(textTranslated)) {
       decide = true;
      }     
     });
@@ -51,7 +51,7 @@ class Translator {
          }
       }
       americanArr.forEach(e => {
-       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'ig')).test(textTranslated)) {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'g')).test(textTranslated)) {
        textTranslated = textTranslated.replace(e,`<span class="highlight">${mapStructAmerican.get(e)}</span>`);
       } 
      });
@@ -95,7 +95,7 @@ class Translator {
       if(e.split("").includes(".")) {
         e=e.replace('.','\\.'); 
       }
-     if((new RegExp(`\\s${e}\\s[^\\.]|${e}[^\\.]\\s|\\s${e}\\.$`,'ig')).test(textTranslated)) {
+     if((new RegExp(`\\s${e}\\s[^\\.]|${e}[^\\.]\\s|\\s${e}\.$`,'g')).test(textTranslated)) {
       decide = true;
      }     
     });
@@ -111,7 +111,7 @@ class Translator {
          }
       }
       britishArr.forEach(e => {
-       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'ig')).test(textTranslated)) {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'g')).test(textTranslated)) {
        textTranslated = textTranslated.replace(e,`<span class="highlight">${mapStructBritish.get(e)}</span>`);
       } 
      });
