@@ -9,7 +9,7 @@ module.exports = function (app) {
   app.route('/api/translate')
     .post((req, res) => {
       const local = req.body.locale;
-      const textRaw = req.body.text;
+      let textRaw = req.body.text;
       if(textRaw === undefined || local === undefined) {
         res.json({ error: 'Required field(s) missing' });
         return;
@@ -21,40 +21,19 @@ module.exports = function (app) {
       } 
  
       if(local === 'american-to-british') {
-        if(translator.americanToBritishTest(textRaw.toLowerCase())) {
-          res.json(
-            { 
-              text: textRaw,
-              translation: "Everything looks good to me!"
-             }
-          );
-          return;
-        } 
-          res.json(
-            { 
-              text: textRaw,
-              translation: translator.americanToBritish(textRaw.toLowerCase())
-             }
-          );
-          return;
-        
+        textRaw = textRaw.toLowerCase();
+        res.json({
+          text: textRaw,
+          translation: translator.americanToBritish(textRaw) === 'same' ? "Everything looks good to me!" : translator.americanToBritish(textRaw)
+        });
+        return;
       } else if(local === 'british-to-american') {
-        if(translator.britishToAmericanTest(textRaw.toLowerCase())) {
-          res.json(
-            { 
-              text: textRaw,
-              translation: "Everything looks good to me!"
-             }
-          );
-          return;
-        } 
-          res.json(
-            { 
-              text: textRaw,
-              translation: translator.britishToAmerican(textRaw.toLowerCase())
-             }
-          );
-          return;        
+        textRaw = textRaw.toLowerCase();
+        res.json({
+          text: textRaw,
+          translation: translator.britishToAmerican(textRaw) === 'same' ? "Everything looks good to me!" : translator.britishToAmerican(textRaw)
+        });
+        return;
       } else {
         res.json({ error: 'Invalid value for locale field' });
         return;

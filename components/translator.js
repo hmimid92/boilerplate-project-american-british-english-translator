@@ -5,123 +5,121 @@ const britishOnly = require('./british-only.js')
 
 class Translator {
 
-  americanToBritishTest(text) {
-    let britishArr = Object.values(americanToBritishSpelling);
-    britishArr.push(...Object.values(americanToBritishTitles));
-    britishArr.push(...Object.keys(britishOnly));
-    britishArr.push(...Object.values(americanOnly));
-    let arrText = text.split(/\s|\.$/g);
-    let decide = false;
-    arrText.forEach((el) => {
-      if(britishArr.includes(el)) 
-        {
-          decide = true;
-        } 
-    }); 
-    if(!decide)
-      {const regResult2 = text.match(/\d\d?:\d\d?/g);
-          if(regResult2 !== null) {
-            return true;
-          } else {
-            return false;
-          }
-      }
-      return decide;
-  }
-  americanToBritish(text) {
-    let americanArr = Object.keys(americanToBritishSpelling);
-    americanArr.push(...Object.keys(americanToBritishTitles));
-    americanArr.push(...Object.values(britishOnly));
-    americanArr.push(...Object.keys(americanOnly));
-    let britishArr = Object.values(americanToBritishSpelling);
-    britishArr.push(...Object.values(americanToBritishTitles));
-    britishArr.push(...Object.keys(britishOnly));
-    britishArr.push(...Object.values(americanOnly));
-    let mapStructure = new Map();
-    americanArr.forEach((el,i) => {
-       mapStructure.set(el,britishArr[i]);
+   americanToBritish(text) {
+    let mapStructAmerican = new Map();
+
+    Object.keys(americanToBritishSpelling).forEach((e) => {
+      mapStructAmerican.set(e,americanToBritishSpelling[e]);
     });
-      const regResult3= text.match(/\d\d?:\d\d?/g);
-      if(regResult3 === null) {
-        let arrText = text.split(/\s|\.$/g);
-        let textTranslated = text;
-        arrText.forEach(el => {
-        if(americanArr.includes(el)) {
-           textTranslated = textTranslated.replace(el, `<span class="highlight">${Object.fromEntries(mapStructure)[el]}</span>`);
-          }
-        });
-       return textTranslated;
-      } else {
-        const el = regResult3[0];
-        const arr = regResult3[0].split(":");
-        if((arr[0].length <= 2 && arr[1].length <= 2) &&
-               (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
-               (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
-              ) {
-           return text.replace(el, `<span class="highlight">${arr[0]}.${arr[1]}</span>`);
+    Object.keys(americanToBritishTitles).forEach((e) => {
+      mapStructAmerican.set(e,americanToBritishTitles[e]);
+    });
+    Object.keys(americanOnly).forEach((e) => {
+      mapStructAmerican.set(e,americanOnly[e]);
+    });
+
+ let mapStructBritish = new Map();
+
+    Object.keys(americanToBritishSpelling).forEach((e) => {
+      mapStructBritish.set(americanToBritishSpelling[e],e);
+    });
+    Object.keys(americanToBritishTitles).forEach((e) => {
+      mapStructBritish.set(americanToBritishTitles[e],e);
+    });
+    Object.keys(britishOnly).forEach((e) => {
+      mapStructBritish.set(e,britishOnly[e]);
+    });
+    const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
+    const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
+
+    let decide = false;
+    let textTranslated = text;
+    britishArr.forEach(e => {
+     if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'ig')).test(text)) {
+      decide = true;
+     }     
+    });
+    if(!decide) {
+     let britishHour =  text.match(/\d{1,2}\.\d{1,2}/g);
+     if(britishHour === null) {
+      let americanHour =  text.match(/\d{1,2}:\d{1,2}/g);
+      if(americanHour !== null) {
+        let val = americanHour[0].split(":")
+        if((Number(val[0]) <= 12 && Number(val[0]) >= 1 ) && 
+            Number(val[1]) <= 59 && Number(val[1]) >= 0) {
+             textTranslated = text.replace(americanHour[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
          }
       }
-   }
-
-   britishToAmericanTest(text) {
-    let americanArr = Object.keys(americanToBritishSpelling);
-    americanArr.push(...Object.keys(americanToBritishTitles));
-    americanArr.push(...Object.values(britishOnly));
-    americanArr.push(...Object.keys(americanOnly));
-    let arrText = text.split(/\s|\.$/g);
-    let decide = false;
-    arrText.forEach((el) => {
-      if(americanArr.includes(el)) 
-        {
-          decide = true;
-        } 
-    }); 
-    if(!decide)
-      {
-        const regResult2 = text.match(/\d\d?:\d\d?/g);
-          if(regResult2 !== null) {
-            return true;
-          } else {
-            return false;
-          }
-      }
-      return decide;
+      americanArr.forEach(e => {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'ig')).test(text)) {
+       textTranslated = textTranslated.replace(e,`<span class="highlight">${mapStructAmerican.get(e)}</span>`);
+      } 
+     });
+     } else {
+      decide = true;
+     }
+    }
+    return decide ? "same" : textTranslated;
    }
 
    britishToAmerican(text) {
-    let americanArr = Object.keys(americanToBritishSpelling);
-    americanArr.push(...Object.keys(americanToBritishTitles));
-    americanArr.push(...Object.values(britishOnly));
-    americanArr.push(...Object.keys(americanOnly));
-    let britishArr = Object.values(americanToBritishSpelling);
-    britishArr.push(...Object.values(americanToBritishTitles));
-    britishArr.push(...Object.keys(britishOnly));
-    britishArr.push(...Object.values(americanOnly));
-    let mapStructure = new Map();
-    britishArr.forEach((el,i) => {
-      mapStructure.set(el,americanArr[i]);
-     });
+    let mapStructAmerican = new Map();
 
-      const regResult3= text.match(/\d\d?\.\d\d?/g);
-      if(regResult3 === null) {
-        let arrText = text.split(/\s|\.$/g);
-        let textTranslated = text;
-        arrText.forEach((el,i) => {
-            if(britishArr.includes(el)) {
-              textTranslated = textTranslated.replace(el, `<span class="highlight">${Object.fromEntries(mapStructure)[el]}</span>`);             
-            }
-         });
-         return textTranslated;
-      } else {
-        const el = regResult3[0];
-        const arr = regResult3[0].split(".");
-        if((arr[0].length <= 2 && arr[1].length <= 2) &&
-                 (Number(arr[0]) <= 12 && Number(arr[0]) > 0 ) &&
-                 (Number(arr[1]) <= 59 && Number(arr[0]) > 0 ) 
-                ) {
-              return text.replace(el, `<span class="highlight">${arr[0]}:${arr[1]}</span>`)
-        } 
+    Object.keys(americanToBritishSpelling).forEach((e) => {
+      mapStructAmerican.set(e,americanToBritishSpelling[e]);
+    });
+    Object.keys(americanToBritishTitles).forEach((e) => {
+      mapStructAmerican.set(e,americanToBritishTitles[e]);
+    });
+    Object.keys(americanOnly).forEach((e) => {
+      mapStructAmerican.set(e,americanOnly[e]);
+    });
+
+ let mapStructBritish = new Map();
+
+    Object.keys(americanToBritishSpelling).forEach((e) => {
+      mapStructBritish.set(americanToBritishSpelling[e],e);
+    });
+    Object.keys(americanToBritishTitles).forEach((e) => {
+      mapStructBritish.set(americanToBritishTitles[e],e);
+    });
+    Object.keys(britishOnly).forEach((e) => {
+      mapStructBritish.set(e,britishOnly[e]);
+    });
+    const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
+    const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
+
+    let decide = false;
+    let textTranslated = text;
+    americanArr.forEach(e => {
+      if(e.split("").includes(".")) {
+        e=e.replace('.','\\.'); 
       }
+     if((new RegExp(`\\s${e}\\s[^\\.]|${e}[^\\.]\\s|\\s${e}\\.$`,'ig')).test(text)) {
+      decide = true;
+     }     
+    });
+    if(!decide) {
+     let americanHour =  text.match(/\d{1,2}:\d{1,2}/g);
+     if(americanHour === null) {
+     let britishHour =  text.match(/\d{1,2}\.\d{1,2}/g);
+      if(britishHour !== null) {
+        let val = britishHour[0].split(".")
+        if((Number(val[0]) <= 12 && Number(val[0]) >= 1 ) && 
+            Number(val[1]) <= 59 && Number(val[1]) >= 0) {
+             textTranslated = text.replace(britishHour[0],`<span class="highlight">${val[0]}:${val[1]}</span>`);
+         }
+      }
+      britishArr.forEach(e => {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'ig')).test(text)) {
+       textTranslated = textTranslated.replace(e,`<span class="highlight">${mapStructBritish.get(e)}</span>`);
+      } 
+     });
+     } else {
+      decide = true;
+     }
+    }
+    return decide ? "same" : textTranslated;
    }
 }
 
