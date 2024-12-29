@@ -22,18 +22,34 @@ module.exports = function (app) {
  
       if(local === 'american-to-british') {
         textRaw = textRaw.toLowerCase();
-        res.json({
-          text: textRaw,
-          translation: translator.americanToBritish(textRaw) === 'same' ? "Everything looks good to me!" : translator.americanToBritish(textRaw)
-        });
-        return;
+        if(translator.americanToBritish(textRaw) === 'same') {
+          res.json({
+            text: textRaw,
+            translation: "Everything looks good to me!"
+          });
+          return;
+        } else {
+          res.json({
+            text: textRaw,
+            translation: translator.americanToBritish(textRaw)
+          });
+          return; 
+        }
       } else if(local === 'british-to-american') {
         textRaw = textRaw.toLowerCase();
-        res.json({
-          text: textRaw,
-          translation: translator.britishToAmerican(textRaw) === 'same' ? "Everything looks good to me!" : translator.britishToAmerican(textRaw)
-        });
-        return;
+        if(translator.britishToAmerican(textRaw) === 'same') {
+          res.json({
+            text: textRaw,
+            translation: "Everything looks good to me!"
+          });
+          return;
+        } else {
+          res.json({
+            text: textRaw,
+            translation: translator.britishToAmerican(textRaw)
+          });
+          return;
+        }
       } else {
         res.json({ error: 'Invalid value for locale field' });
         return;
