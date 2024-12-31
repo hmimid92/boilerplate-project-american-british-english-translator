@@ -63,7 +63,7 @@ class Translator {
           decide = true;
         }
       }
-     if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text).test(text)) {
+     if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
       decide = true;
      }     
     });
