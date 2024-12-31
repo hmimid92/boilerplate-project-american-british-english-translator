@@ -28,7 +28,7 @@ class Translator {
     });
     if(decide1) {
       britishArr.forEach(e => {
-        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
+        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
          decide = true;
         }     
        });
@@ -66,7 +66,7 @@ class Translator {
     });
     if(decide1) {
       americanArr.forEach(e => {
-        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
+        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
          decide = true;
         }     
        });
@@ -104,7 +104,7 @@ class Translator {
          }
       }
       americanArr.forEach(e => {
-       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
        text = text.replace((new RegExp(`${e}`,'gi')),`<span class="highlight">${mapStructAmerican.get(e)}</span>`);
       } 
      });
