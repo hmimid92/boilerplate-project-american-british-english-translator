@@ -10,7 +10,16 @@ module.exports = function (app) {
     .post((req, res) => {
       const local = req.body.locale;
       let textRaw = req.body.text;
-    
+
+      if(textRaw === undefined || local === undefined) {
+        res.json({ error: 'Required field(s) missing' });
+        return;
+      }  
+      
+      if(!textRaw) {
+        res.json({ error: 'No text to translate' });
+        return;
+      } 
  
       if(local === 'american-to-british') {
         if(translator.americanToBritishTest(textRaw)) {
@@ -40,6 +49,9 @@ module.exports = function (app) {
           });
           return;
         }
+      } else {
+        res.json({ error: 'Invalid value for locale field' });
+        return;
       } 
     });
 };
