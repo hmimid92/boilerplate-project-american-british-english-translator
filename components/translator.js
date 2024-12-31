@@ -46,8 +46,10 @@ class Translator {
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
     let decide = false;
     americanArr.forEach(e => {
-      if(e.split("").includes(".")) {
-        e=e.replace('.','\\.'); 
+      if(e.includes(".")) {
+        if(text.split(" ").includes(e)) {
+          decide = true;
+        }
       }
      if((new RegExp(`\\s${e}\\s[^\\.]|${e}[^\\.]\\s|\\s${e}\.$`,'gi')).test(text)) {
       decide = true;
