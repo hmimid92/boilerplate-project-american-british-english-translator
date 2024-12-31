@@ -19,11 +19,23 @@ class Translator {
     });
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
-    britishArr.forEach(e => {
-      if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
-       decide = true;
-      }     
-     });
+    let decide1 = true;
+    let arrText = text.split(" ");
+    Object.keys(americanToBritishTitles).forEach(e => {
+      if(arrText.includes(e)) {
+        decide1 = false;
+      }
+    });
+    if(decide1) {
+      britishArr.forEach(e => {
+        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
+         decide = true;
+        }     
+       });
+    } else {
+      return false;
+    }
+   
      let britishHour = text.match(/\d{1,2}\.\d{1,2}/g);
      if(britishHour !== null) {
       decide = true;
