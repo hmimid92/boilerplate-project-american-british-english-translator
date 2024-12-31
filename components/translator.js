@@ -80,7 +80,7 @@ class Translator {
          }
       }
       americanArr.forEach(e => {
-       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
        text = text.replace((new RegExp(`${e}`,'gi')),`<span class="highlight">${mapStructAmerican.get(e)}</span>`);
       } 
      });
@@ -111,7 +111,7 @@ class Translator {
          }
       }
       britishArr.forEach(e => {
-       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
         text = text.replace((new RegExp(`${e}`,'gi')),`<span class="highlight">${mapStructBritish.get(e)}</span>`);
       } 
      });
