@@ -36,11 +36,9 @@ class Translator {
        if(britishHour !== null) {
         decide = true;
        }
-    } else {
-      return false;
     }
    
-     return decide;
+     return decide1 ? decide : decide1;
   }
 
   britishToAmericanTest(text) {
@@ -74,11 +72,9 @@ class Translator {
         if(americanHour !== null) {
          decide = true;
         }
-    }  else {
-      return false;
     }
    
-     return decide;
+     return decide1 ? decide : decide1;
   }
 
    americanToBritish(text) {
@@ -98,10 +94,7 @@ class Translator {
       let americanHour =  text.match(/\d{1,2}:\d{1,2}/g);
       if(americanHour !== null) {
         let val = americanHour[0].split(":")
-        if((Number(val[0]) <= 12 && Number(val[0]) >= 1 ) && 
-            Number(val[1]) <= 59 && Number(val[1]) >= 0) {
-             text = text.replace(americanHour[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
-         }
+        text = text.replace(americanHour[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
       }
       americanArr.forEach(e => {
        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
@@ -126,19 +119,17 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
 
    
-     let britishHour =  text.match(/\d{1,2}\.\d{1,2}/g);
-      if(britishHour !== null) {
-        let val = britishHour[0].split(".")
-        if((Number(val[0]) <= 12 && Number(val[0]) >= 1 ) && 
-            Number(val[1]) <= 59 && Number(val[1]) >= 0) {
-              text = text.replace(britishHour[0],`<span class="highlight">${val[0]}:${val[1]}</span>`);
-         }
-      }
       britishArr.forEach(e => {
        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
         text = text.replace((new RegExp(`${e}`,'gi')),`<span class="highlight">${mapStructBritish.get(e)}</span>`);
       } 
      });
+     let britishHour =  text.match(/\d{1,2}\.\d{1,2}/g);
+     console.log(britishHour)
+     if(britishHour !== null) {
+      let val = britishHour[0].split(".")
+      text = text.replace(britishHour[0],`<span class="highlight">${val[0]}:${val[1]}</span>`);
+    }
     return text;
    }
 }
