@@ -32,14 +32,14 @@ class Translator {
          decide = true;
         }     
        });
+       let britishHour = text.match(/\d{1,2}\.\d{1,2}/g);
+       if(britishHour !== null) {
+        decide = true;
+       }
     } else {
       return false;
     }
    
-     let britishHour = text.match(/\d{1,2}\.\d{1,2}/g);
-     if(britishHour !== null) {
-      decide = true;
-     }
      return decide;
   }
 
@@ -57,20 +57,27 @@ class Translator {
     });
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
     let decide = false;
-    americanArr.forEach(e => {
-      if(e.includes(".")) {
-        if(text.split(" ").includes(e)) {
-          decide = true;
-        }
+    let decide1 = true;
+    let arrText = text.split(" ");
+    Object.values(americanToBritishTitles).forEach(e => {
+      if(arrText.includes(e)) {
+        decide1 = false;
       }
-     if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
-      decide = true;
-     }     
     });
-     let americanHour = text.match(/\d{1,2}:\d{1,2}/g);
-     if(americanHour !== null) {
-      decide = true;
-     }
+    if(decide1) {
+      americanArr.forEach(e => {
+        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
+         decide = true;
+        }     
+       });
+        let americanHour = text.match(/\d{1,2}:\d{1,2}/g);
+        if(americanHour !== null) {
+         decide = true;
+        }
+    }  else {
+      return false;
+    }
+   
      return decide;
   }
 
@@ -128,7 +135,7 @@ class Translator {
          }
       }
       britishArr.forEach(e => {
-       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}`,'gi')).test(text)) {
+       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
         text = text.replace((new RegExp(`${e}`,'gi')),`<span class="highlight">${mapStructBritish.get(e)}</span>`);
       } 
      });
