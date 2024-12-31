@@ -39,8 +39,8 @@ class Translator {
     }
    
      return decide1 ? decide : decide1;
-  }
-
+  } 
+ 
   britishToAmericanTest(text) {
     let mapStructAmerican = new Map();
 
@@ -90,17 +90,16 @@ class Translator {
       mapStructAmerican.set(e,americanOnly[e]);
     });
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
-    
-      let americanHour =  text.match(/\d{1,2}:\d{1,2}/g);
-      if(americanHour !== null) {
-        let val = americanHour[0].split(":")
-        text = text.replace(americanHour[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
-      }
       americanArr.forEach(e => {
        if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\.$`,'gi')).test(text)) {
        text = text.replace((new RegExp(`${e}`,'gi')),`<span class="highlight">${mapStructAmerican.get(e)}</span>`);
       } 
      });
+     let americanHour =  text.match(/\d{1,2}:\d{1,2}/g);
+      if(americanHour !== null) {
+        let val = americanHour[0].split(":")
+        text = text.replace(americanHour[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
+      }
     return text;
    }
 
@@ -125,7 +124,6 @@ class Translator {
       } 
      });
      let britishHour =  text.match(/\d{1,2}\.\d{1,2}/g);
-     console.log(britishHour)
      if(britishHour !== null) {
       let val = britishHour[0].split(".")
       text = text.replace(britishHour[0],`<span class="highlight">${val[0]}:${val[1]}</span>`);
