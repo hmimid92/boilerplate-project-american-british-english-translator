@@ -20,6 +20,7 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     britishArr.forEach(e => {
+      e=e.toLowerCase();
       if((new RegExp(`\\s${e}\\s|${e}\\s|\\s${e}\\.$`,'gi')).test(text.toLowerCase())) {
        decide = true;
       }     
@@ -46,6 +47,7 @@ class Translator {
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
     let decide = false;
     americanArr.forEach(e => {
+      e=e.toLowerCase();
       if(e.split("").includes(".")) {
         e=e.replace('.','\\.'); 
       }
