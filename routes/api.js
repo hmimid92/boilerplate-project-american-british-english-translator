@@ -13,7 +13,7 @@ module.exports = function (app) {
     
  
       if(local === 'american-to-british') {
-        if(translator.americanToBritish(textRaw) === 'same') {
+        if(translator.americanToBritishTest(textRaw)) {
           res.json({
             text: textRaw,
             translation: "Everything looks good to me!"
@@ -27,7 +27,7 @@ module.exports = function (app) {
           return; 
         }
       } else if(local === 'british-to-american') {
-        if(translator.britishToAmerican(textRaw) === 'same') {
+        if(translator.britishToAmericanTest(textRaw)) {
           res.json({
             text: textRaw,
             translation: "Everything looks good to me!"
