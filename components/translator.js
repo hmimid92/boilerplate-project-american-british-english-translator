@@ -30,14 +30,11 @@ class Translator {
     });
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
-    let textTranslated = "";
     let decide = false;
     britishArr.forEach(el => {
-      const searched = (new RegExp(`${el}(?=\\s)|[0|1][0-9]\\.[0-5][0-9]`, 'gi')).exec(text);
+      const searched = (new RegExp(`${el}(?=\\s)|\\d\\d?\\.\\d\\d?`, 'gi')).exec(text);
       if(searched !== null) {
         decide = true;
-      } else {
-        decide = false;
       }
     });
     if(!decide) {
@@ -53,8 +50,7 @@ class Translator {
         } 
       });
     }
-    textTranslated = text;
-    return textTranslated;
+    return decide? "" : text;
   } 
  
   britishToAmerican(text) {
@@ -82,31 +78,28 @@ class Translator {
     });
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
-    let textTranslated = "";
     let decide = false;
     americanArr.forEach(el => {
       let searched = (new RegExp(`${el}(?=\\s)|[0|1][0-9]:[0-5][0-9]`, 'gi')).exec(text);
       if(searched !== null) {
+        console.log(el)
         decide = true;
-      } else {
-        decide = false;
-      }
+      } 
     });
     if(!decide) {
       britishArr.forEach(el => {
-        let searched = (new RegExp(`${el}(?=\\s)|[0|1][0-9]:[0-5][0-9]`, 'gi')).exec(text);
+        let searched = (new RegExp(`${el}(?=\\s)|\\d\\d?\\.\\d\\d?`, 'gi')).exec(text);
         if(searched !== null) {
           if(searched[0] === el) {
             text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructBritish.get(el)}</span>`);
           } else {
             let val = searched[0].split(".")
-            text = text.replace(searched[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
+            text = text.replace(searched[0],`<span class="highlight">${val[0]}:${val[1]}</span>`);
           }
         } 
       });
     }
-    textTranslated = text;
-    return textTranslated;
+    return decide ? "" : text;
   }
 }
 
