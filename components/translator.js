@@ -70,7 +70,7 @@ class Translator {
     if(americanHour !== null) {
          return true;
      } else {
-      let arrText = text.toLowerCase().split(/\s|\./).filter(e => e !== '');
+      let arrText = text.toLowerCase().split(/\s/).filter(e => e !== '');
       americanArr.forEach(el => {
         let elNew = el.toLowerCase().split(/\s/g);
         if(elNew.length === 1) {
