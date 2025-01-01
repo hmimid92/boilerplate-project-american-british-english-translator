@@ -27,26 +27,24 @@ module.exports = function (app) {
             text: textRaw,
             translation: "Everything looks good to me!"
           });
-          return;
-        } 
+        } else {
           res.json({
             text: textRaw,
             translation: translator.americanToBritish(textRaw)
           });
-          return; 
+        }
       } else if(local === 'british-to-american') {
         if(translator.britishToAmericanTest(textRaw)) {
           res.json({
             text: textRaw,
             translation: "Everything looks good to me!"
           });
-          return;
-        } 
+        } else {
           res.json({
             text: textRaw,
             translation: translator.britishToAmerican(textRaw)
           });
-          return;
+        }          
       } else {
         res.json({ error: 'Invalid value for locale field' });
         return;
