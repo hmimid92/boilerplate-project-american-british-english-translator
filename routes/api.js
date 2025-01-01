@@ -22,7 +22,6 @@ module.exports = function (app) {
       } 
  
       if(local === 'american-to-british') {
-        console.log(translator.americanToBritishTest(textRaw))
         if(translator.americanToBritishTest(textRaw)) {
           res.json({
             text: textRaw,
