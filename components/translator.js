@@ -37,10 +37,17 @@ class Translator {
           if(arrText.includes(elNew[0]) && arrText.includes(elNew[1]) ) {
             decide = true;
            }
-        } else {
+        } else if(elNew.length === 3) {
           if(arrText.includes(elNew[0]) &&
           arrText.includes(elNew[1]) &&
           arrText.includes(elNew[2]) ) {
+            decide = true;
+          }
+        } else {
+          if(arrText.includes(elNew[0]) &&
+          arrText.includes(elNew[1]) &&
+          arrText.includes(elNew[2]) &&
+          arrText.includes(elNew[3]) ) {
             decide = true;
           }
         }
