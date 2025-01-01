@@ -9,7 +9,7 @@ module.exports = function (app) {
   app.route('/api/translate')
     .post((req, res) => {
       const local = req.body.locale;
-      const textRaw = req.body.text;
+      let textRaw = req.body.text;
 
       if(textRaw === undefined || local === undefined) {
         res.json({ error: 'Required field(s) missing' });
@@ -29,7 +29,7 @@ module.exports = function (app) {
           });
         } else {
           res.json({
-            textRaw,
+            text: textRaw,
             translation: translator.americanToBritish(textRaw)
           });
         }
@@ -41,7 +41,7 @@ module.exports = function (app) {
           });
         } else {
           res.json({
-            textRaw,
+            text: textRaw,
             translation: translator.britishToAmerican(textRaw)
           });
         }          
