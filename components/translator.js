@@ -32,12 +32,9 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     britishArr.forEach(el => {
-     if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text)) {
+     if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
        decide = true;
      } 
-     if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
-        decide = true;
-      }
     });
     if(!decide) {
       americanArr.forEach(el => {
@@ -81,16 +78,13 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     americanArr.forEach(el => {
-     if(/([1-9]|1[012]):[0-5][0-9]/g.test(text)) {
-       decide = true;
-     }
-     let temp = el.split('');
+      let temp = el.split('');
      if(temp.includes('.')) {
       el = el.replace('.','\\.');
      }
-     if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
-        decide = true;
-      }
+     if(/([1-9]|1[012]):[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
+       decide = true;
+     }
     });
     if(!decide) {
       britishArr.forEach(el => {
