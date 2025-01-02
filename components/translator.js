@@ -32,25 +32,23 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     britishArr.forEach(el => {
-      const searched = (new RegExp(`${el}(?=\\s)|\\d\\d?\\.\\d\\d?`, 'gi')).exec(text);
-      if(searched !== null) {
+     if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text)) {
+       decide = true;
+     } 
+     if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
         decide = true;
       }
     });
     if(!decide) {
       americanArr.forEach(el => {
-        if(el.split('').includes('.')) {
-          el = el.replace('.','\\.');
+        if(/([1-9]|1[012]):[0-5][0-9]/g.test(text)) {
+          let val = text.match(/([1-9]|1[012]):[0-5][0-9]/g)[0];
+          let val1 = val.split(':');
+          text = text.replace(val,`<span class="highlight">${val1[0]}.${val1[1]}</span>`);
         }
-        let searched = (new RegExp(`${el}(?=\\s)|[0|1][0-9]:[0-5][0-9]`, 'gi')).exec(text);
-        if(searched !== null) {
-          if(searched[0] === el) {
-            text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructAmerican.get(el)}</span>`);
-          } else {
-            let val = searched[0].split(":")
-            text = text.replace(searched[0],`<span class="highlight">${val[0]}.${val[1]}</span>`);
-          }
-        } 
+         if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
+          text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructAmerican.get(el)}</span>`);
+         }
       });
     }
     return decide? "" : text;
@@ -83,28 +81,30 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     americanArr.forEach(el => {
-      if(el.split('').includes('.')) {
-        el = el.replace('.','\\.');
-      }
-      let searched = (new RegExp(`${el}(?=\\s)|[0|1][0-9]:[0-5][0-9]`, 'gi')).exec(text);
-      if(searched !== null) {
+     if(/([1-9]|1[012]):[0-5][0-9]/g.test(text)) {
+       decide = true;
+     }
+     let temp = el.split('');
+     if(temp.includes('.')) {
+      el = el.replace('.','\\.');
+     }
+     if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
         decide = true;
-      } 
+      }
     });
     if(!decide) {
       britishArr.forEach(el => {
-        let searched = (new RegExp(`${el}(?=\\s)|\\d\\d?\\.\\d\\d?`, 'gi')).exec(text);
-        if(searched !== null) {
-          if(searched[0] === el) {
-            text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructBritish.get(el)}</span>`);
-          } else {
-            let val = searched[0].split(".")
-            text = text.replace(searched[0],`<span class="highlight">${val[0]}:${val[1]}</span>`);
-          }
-        } 
+        if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text)) {
+          let val = text.match(/([1-9]|1[012])\.[0-5][0-9]/g)[0];
+          let val1 = val.split('.');
+          text = text.replace(val,`<span class="highlight">${val1[0]}:${val1[1]}</span>`);
+        }
+         if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
+          text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructBritish.get(el)}</span>`);
+         }
       });
     }
-    return decide ? "" : text;
+    return decide? "" : text;
   }
 }
 
