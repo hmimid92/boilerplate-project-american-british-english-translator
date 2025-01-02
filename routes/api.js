@@ -11,42 +11,36 @@ module.exports = function (app) {
       const local = req.body.locale;
       let textRaw = req.body.text;
 
-      if(textRaw === undefined || local === undefined) {
+      if(textRaw == undefined || !local) {
         res.json({ error: 'Required field(s) missing' });
         return;
       }  
       
-      if(!textRaw) {
+      if(textRaw == "") {
         res.json({ error: 'No text to translate' });
         return;
       } 
- 
+     
+      let textTranslated = "";
       if(local === 'american-to-british') {
-        if(translator.americanToBritish(textRaw) === "") {
-          res.json({
-            textRaw,
-            translation: "Everything looks good to me!"
-          });
-        } else {
-          res.json({
-            text: textRaw,
-            translation: translator.americanToBritish(textRaw)
-          });
-        }
+        textTranslated = translator.americanToBritish(textRaw);
       } else if(local === 'british-to-american') {
-        if(translator.britishToAmerican(textRaw) === "") {
-          res.json({
-            textRaw,
-            translation: "Everything looks good to me!"
-          });
-        } else {
-          res.json({
-            text: textRaw,
-            translation: translator.britishToAmerican(textRaw)
-          });
-        }          
+        textTranslated = translator.britishToAmerican(textRaw);
       } else {
         res.json({ error: 'Invalid value for locale field' });
+        return;
       } 
+
+      if(textTranslated == textRaw || !textTranslated) {
+        res.json({
+          textRaw,
+          translation: "Everything looks good to me!"
+        });
+      } else {
+        res.json({
+          text: textRaw,
+          translation: textTranslated
+        });
+      }
     });
 };
