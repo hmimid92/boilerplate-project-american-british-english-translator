@@ -47,7 +47,6 @@ module.exports = function (app) {
         }          
       } else {
         res.json({ error: 'Invalid value for locale field' });
-        return;
       } 
     });
 };
