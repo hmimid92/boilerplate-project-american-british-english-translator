@@ -17,9 +17,9 @@ class Translator {
     Object.keys(britishOnly).forEach((e) => {
       mapStructBritish.set(e,britishOnly[e]);
     });
-    // Object.keys(americanOnly).forEach((e) => {
-    //   mapStructBritish.set(americanOnly[e],e);
-    // });
+    Object.keys(americanOnly).forEach((e) => {
+      mapStructBritish.set(americanOnly[e],e);
+    });
     let mapStructAmerican = new Map();
 
     Object.keys(americanToBritishSpelling).forEach((e) => {
@@ -66,9 +66,9 @@ class Translator {
     Object.keys(americanOnly).forEach((e) => {
       mapStructAmerican.set(e,americanOnly[e]);
     });
-    // Object.keys(britishOnly).forEach((e) => {
-    //   mapStructAmerican.set(britishOnly[e],e);
-    // });
+    Object.keys(britishOnly).forEach((e) => {
+      mapStructAmerican.set(britishOnly[e],e);
+    });
     const americanArr = Object.keys(Object.fromEntries(mapStructAmerican));
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
