@@ -36,22 +36,7 @@ class Translator {
        decide = true;
      } 
     });
-    if(!decide) {
-      americanArr.forEach(el => {
-        if(/([1-9]|1[012]):[0-5][0-9]/g.test(text)) {
-          let val = text.match(/([1-9]|1[012]):[0-5][0-9]/g)[0];
-          let val1 = val.split(':');
-          text = text.replace(val,`<span class="highlight">${val1[0]}.${val1[1]}</span>`);
-        }
-        let temp = el.split('');
-     if(temp.includes('.')) {
-      el = el.replace('.','\\.');
-     }
-         if((new RegExp(`${el}(?=\\s)`, "gi")).test(text)) {
-          text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructAmerican.get(el)}</span>`);
-         }
-      });
-    }
+   
     return decide? "" : text;
   } 
  
@@ -90,18 +75,7 @@ class Translator {
        decide = true;
      }
     });
-    if(!decide) {
-      britishArr.forEach(el => {
-        if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text)) {
-          let val = text.match(/([1-9]|1[012])\.[0-5][0-9]/g)[0];
-          let val1 = val.split('.');
-          text = text.replace(val,`<span class="highlight">${val1[0]}:${val1[1]}</span>`);
-        }
-         if((new RegExp(`${el}(?=\\s)`, "gi")).test(text)) {
-          text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructBritish.get(el)}</span>`);
-         }
-      });
-    }
+   
     return decide? "" : text;
   }
 }
