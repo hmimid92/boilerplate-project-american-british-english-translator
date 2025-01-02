@@ -35,7 +35,7 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     britishArr.forEach(el => {
-     if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s)`, "gi")).test(text)) {
+     if(/([1-9]|1[012])\.[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
        decide = true;
      } 
     });
@@ -77,7 +77,7 @@ class Translator {
      if(temp.includes('.')) {
       el = el.replace('.','\\.');
      }
-     if(/([1-9]|1[012]):[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s)`, "gi")).test(text)) {
+     if(/([1-9]|1[012]):[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
        decide = true;
      }
     });
