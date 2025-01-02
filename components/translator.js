@@ -78,10 +78,7 @@ class Translator {
     const britishArr = Object.keys(Object.fromEntries(mapStructBritish));
     let decide = false;
     americanArr.forEach(el => {
-      let temp = el.split('');
-     if(temp.includes('.')) {
-      el = el.replace('.','\\.');
-     }
+   
      if(/([1-9]|1[012]):[0-5][0-9]/g.test(text) || (new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
        decide = true;
      }
