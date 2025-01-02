@@ -8,37 +8,36 @@ module.exports = function (app) {
 
   app.route('/api/translate')
     .post((req, res) => {
-      const local = req.body.locale;
-      let textRaw = req.body.text;
+      const {text, locale} = req.body;
 
-      if(textRaw == undefined || !local) {
+      if(text == undefined || !locale) {
         res.json({ error: 'Required field(s) missing' });
         return;
       }  
       
-      if(textRaw == "") {
+      if(text == "") {
         res.json({ error: 'No text to translate' });
         return;
       } 
      
       let textTranslated = "";
-      if(local === 'american-to-british') {
-        textTranslated = translator.americanToBritish(textRaw);
-      } else if(local === 'british-to-american') {
-        textTranslated = translator.britishToAmerican(textRaw);
+      if(locale === 'american-to-british') {
+        textTranslated = translator.americanToBritish(text);
+      } else if(locale === 'british-to-american') {
+        textTranslated = translator.britishToAmerican(text);
       } else {
         res.json({ error: 'Invalid value for locale field' });
         return;
       } 
 
-      if(textTranslated == textRaw || !textTranslated) {
+      if(textTranslated == text || !textTranslated) {
         res.json({
-          textRaw,
+          text,
           translation: "Everything looks good to me!"
         });
       } else {
         res.json({
-          text: textRaw,
+          text,
           translation: textTranslated
         });
       }
