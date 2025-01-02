@@ -46,6 +46,10 @@ class Translator {
           let val1 = val.split(':');
           text = text.replace(val,`<span class="highlight">${val1[0]}.${val1[1]}</span>`);
         }
+        let temp = el.split('');
+     if(temp.includes('.')) {
+      el = el.replace('.','\\.');
+     }
          if((new RegExp(`${el}(?=\\s|\\.$)`, "gi")).test(text)) {
           text = text.replace((new RegExp(`${el}`,'gi')),`<span class="highlight">${mapStructAmerican.get(el)}</span>`);
          }
